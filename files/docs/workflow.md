@@ -41,6 +41,16 @@
 - 무관 변경은 **별 feature·별 commit**으로 분리. 한 commit이 두 feature를 건드리지 않음.
 - 위반 시: 이미 머지된 건 amend 비추(history 변경 위험), 다음 commit부터 다시 prefix.
 
+## 브랜칭 — feature 당 분기 (선택, 권장)
+
+여러 feature 병행·운영 코드가 살아있는 프로젝트에서는:
+
+- **트렁크**: 프로젝트마다 다름 (`main`, `release-staging`, `develop` 등). 첫 설치 시 확인·통일.
+- **feature 브랜치**: `feature/<feature-slug>` 로 트렁크에서 분기. 슬러그 = feature 파일명 = commit scope. **셋 모두 일치** → 추적 자명 (`git log <trunk>..feature/<slug>` 한 줄로 전 변경 이력).
+- **상태 전이 커밋**: 상태 전이(`대기`→`구현중`→`검증중`→`완료`) 모두 feature 브랜치에. 트렁크 index는 머지 시 갱신됨.
+- **머지**: 검증 PASS + 상태 `완료` 후 트렁크로 fast-forward. 그 다음 feature는 갱신된 트렁크에서 분기.
+- **솔로·단일 feature**: 분기 없이 트렁크 직접 작업도 OK. 단 운영 코드 살아있거나 여러 feature 병행이면 충돌 회피용으로 분기 권장.
+
 ## 보드 거버넌스 — index.md는 보드, 죽으면 전체가 죽는다
 
 `docs/index.md`의 기능 테이블이 **이 프로젝트의 보드**다. 별도 추적 도구 없음.
